@@ -1,0 +1,185 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String      @id @default(uuid())
+  name         String
+  email        String      @unique
+  passwordHash String?
+  phone        String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  products     Product[]
+
+  cart         Cart?
+  addresses    Address[]
+  orders       Order[]
+  wishlist     Wishlist[]
+
+}
+
+model Category {
+  id         Int        @id @default(autoincrement())
+  name       String     @unique
+  createdAt  DateTime   @default(now())
+
+  products   Product[]
+}
+
+model Product {
+  id                  String         @id @default(uuid())
+
+  title               String
+  description         String?
+
+  brand               String?
+
+  categoryId          Int
+  category            Category       @relation(fields: [categoryId], references: [id])
+
+  price               Decimal
+
+  discountPercentage  Decimal        @default(0)
+
+  stock               Int            @default(0)
+
+  rating              Decimal        @default(0)
+
+  totalReviews        Int            @default(0)
+
+  thumbnail           String?
+
+  isActive            Boolean        @default(true)
+
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  userId              String
+  user                User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  images              ProductImage[]
+  cartItems           CartItem[]
+  orderItems          OrderItem[]
+  wishlist            Wishlist[]
+
+
+  @@index([title])
+  @@index([categoryId])
+}
+
+model ProductImage {
+  id          Int       @id @default(autoincrement())
+
+  productId   String
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  imageUrl    String
+
+  createdAt   DateTime  @default(now())
+}
+
+
+model Cart {
+  id          String      @id @default(uuid())
+
+  userId      String      @unique
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime    @default(now())
+
+  cartItems   CartItem[]
+}
+
+model CartItem {
+  id          Int       @id @default(autoincrement())
+
+  cartId      String
+  cart        Cart      @relation(fields: [cartId], references: [id], onDelete: Cascade)
+
+  productId   String
+  product     Product   @relation(fields: [productId], references: [id])
+
+  quantity    Int
+
+  createdAt   DateTime  @default(now())
+
+  @@index([cartId])
+}
+
+model Address {
+  id            String    @id @default(uuid())
+
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  fullName      String
+  phone         String
+
+  addressLine1  String
+  addressLine2  String?
+
+  city          String
+  state         String
+  country       String
+  postalCode    String
+
+  createdAt     DateTime  @default(now())
+
+  orders        Order[]
+}
+
+model Order {
+  id             String        @id @default(uuid())
+
+  userId         String
+  user           User          @relation(fields: [userId], references: [id])
+
+  addressId      String
+  address        Address       @relation(fields: [addressId], references: [id])
+
+  totalAmount    Decimal
+
+  status         String        @default("PLACED")
+
+  paymentStatus  String        @default("PENDING")
+
+  placedAt       DateTime      @default(now())
+
+  orderItems     OrderItem[]
+}
+
+model OrderItem {
+  id                Int       @id @default(autoincrement())
+
+  orderId           String
+  order             Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId         String
+  product           Product   @relation(fields: [productId], references: [id])
+
+  quantity          Int
+
+  priceAtPurchase   Decimal
+
+  @@index([orderId])
+}
+
+model Wishlist {
+  id          Int       @id @default(autoincrement())
+
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  productId   String
+  product     Product   @relation(fields: [productId], references: [id])
+
+  createdAt   DateTime  @default(now())
+}
+
