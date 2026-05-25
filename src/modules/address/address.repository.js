@@ -1,6 +1,6 @@
 import prisma from "../../config/prisma.js";
 
-// ✅ CREATE ADDRESS
+// CREATE ADDRESS
 export const createAddressRepo = async (userId, data) => {
   return prisma.address.create({
     data: {
@@ -10,7 +10,7 @@ export const createAddressRepo = async (userId, data) => {
   });
 };
 
-// ✅ GET USER ADDRESSES
+// GET USER ADDRESSES
 export const getUserAddressesRepo = async (userId) => {
   return prisma.address.findMany({
     where: { userId },
@@ -18,7 +18,7 @@ export const getUserAddressesRepo = async (userId) => {
   });
 };
 
-// 🔐 UPDATE ADDRESS (only owner can update)
+//  UPDATE ADDRESS (only owner can update)
 export const updateAddressRepo = async (addressId, userId, data) => {
   const address = await prisma.address.findUnique({
     where: { id: addressId },
@@ -38,7 +38,7 @@ export const updateAddressRepo = async (addressId, userId, data) => {
   });
 };
 
-// 🔐 DELETE ADDRESS (only owner can delete)
+//  DELETE ADDRESS (only owner can delete)
 export const deleteAddressRepo = async (addressId, userId) => {
   const address = await prisma.address.findUnique({
     where: { id: addressId },
@@ -58,7 +58,7 @@ export const deleteAddressRepo = async (addressId, userId) => {
 };
 
 
-// 📦 GET USER ORDERS
+//  GET USER ORDERS
 export const getUserOrdersRepo = async (userId) => {
   return prisma.order.findMany({
     where: { userId },
@@ -75,7 +75,7 @@ export const getUserOrdersRepo = async (userId) => {
 };
 
 
-// 📦 GET SINGLE ORDER
+//  GET SINGLE ORDER
 export const getOrderByIdRepo = async (orderId, userId) => {
   const order = await prisma.order.findUnique({
     where: { id: orderId },
@@ -93,7 +93,7 @@ export const getOrderByIdRepo = async (orderId, userId) => {
     throw new Error("Order not found");
   }
 
-  // 🔐 SECURITY
+  //  SECURITY
   if (order.userId !== userId) {
     throw new Error("Unauthorized");
   }

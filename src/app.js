@@ -4,7 +4,9 @@ import helmet from "helmet";
 import morgan from "morgan";
 import routes from "./routes/index.js";
 import authRoutes from "./modules/auth/auth.routes.js";
-import orderRoutes from "./modules/orders/order.routes.js"; // ✅ ADD
+import orderRoutes from "./modules/orders/order.routes.js";  // ADD
+import cartRoutes from "./modules/cart/cart.routes.js";
+
 
 const app = express();
 
@@ -17,7 +19,8 @@ app.use(morgan("dev"));
 // Routes
 app.use("/api", routes);
 app.use("/api/auth", authRoutes);
-app.use("/api/orders", orderRoutes); // ✅ ADD
+app.use("/api/orders", orderRoutes); // ADD
+app.use("/api/cart", cartRoutes);
 
 app.use(
   cors({
