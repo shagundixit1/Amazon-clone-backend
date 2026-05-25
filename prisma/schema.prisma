@@ -104,7 +104,7 @@ model CartItem {
   cart        Cart      @relation(fields: [cartId], references: [id], onDelete: Cascade)
 
   productId   String
-  product     Product   @relation(fields: [productId], references: [id])
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   quantity    Int
 
@@ -142,7 +142,7 @@ model Order {
   user           User          @relation(fields: [userId], references: [id])
 
   addressId      String
-  address        Address       @relation(fields: [addressId], references: [id])
+  address        Address       @relation(fields: [addressId], references: [id], onDelete: Cascade)
 
   totalAmount    Decimal
 
@@ -162,7 +162,7 @@ model OrderItem {
   order             Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
   productId         String
-  product           Product   @relation(fields: [productId], references: [id])
+  product           Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   quantity          Int
 
@@ -178,7 +178,7 @@ model Wishlist {
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   productId   String
-  product     Product   @relation(fields: [productId], references: [id])
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   createdAt   DateTime  @default(now())
 }

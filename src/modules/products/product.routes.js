@@ -11,7 +11,7 @@ const router = express.Router();
 router.get("/", getProducts);
 router.get("/:id", getProductById);
 
-// 🔐 PROTECTED
+//  PROTECTED
 router.post("/", protect, createProduct);
 router.get("/my", protect, getMyProducts);
 

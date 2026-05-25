@@ -33,7 +33,7 @@ export const createProduct = async (req, res) => {
   }
 };
 
-// ✅ FIXED EXPORT NAME
+//  FIXED EXPORT NAME
 export const getProducts = async (req, res) => {
   try {
     const products = await getAllProducts();
