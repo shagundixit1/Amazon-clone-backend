@@ -162,5 +162,5 @@ npm run dev
 
 ## 12. Author
 
-Sahil Singh  
+Shagun Dixit
 Full Stack Developer
