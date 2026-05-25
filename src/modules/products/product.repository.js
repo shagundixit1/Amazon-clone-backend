@@ -1,54 +1,3 @@
-// import prisma from "../../config/prisma.js";
-
-// // Get all products
-// export const getAllProducts = async () => {
-//   try {
-//     const products = await prisma.product.findMany({
-//       include: {
-//         images: true,
-//         category: true
-//       }
-//     });
-
-//     return products;
-//   } catch (error) {
-//     console.error("Error fetching products:", error);
-//     throw error;
-//   }
-// };
-
-
-
-
-
-
-// import prisma from "../../config/prisma.js";
-
-// export const getAllProducts = async () => {
-//   try {
-//     return await prisma.product.findMany({
-//       include: { category: true },
-//     });
-//   } catch (error) {
-//     console.error("DB ERROR:", error);
-//     return []; // 👈 prevents crash
-//   }
-// };
-
-// export const getProductByIdRepo = async (id) => {
-//   return prisma.product.findUnique({
-//     where: { id },
-//     include: {
-//       category: true,
-//       images: true,
-//     },
-//   });
-// };
-
-
-
-
-
 
 
 
@@ -56,7 +5,7 @@
 
 import prisma from "../../config/prisma.js";
 
-// ✅ GET ALL PRODUCTS
+// GET ALL PRODUCTS
 export const getAllProducts = async () => {
   try {
     return await prisma.product.findMany({
@@ -69,7 +18,7 @@ export const getAllProducts = async () => {
 };
 
 
-// ✅ GET PRODUCT BY ID
+//  GET PRODUCT BY ID
 export const getProductByIdRepo = async (id) => {
   return prisma.product.findUnique({
     where: { id },
@@ -81,7 +30,7 @@ export const getProductByIdRepo = async (id) => {
 };
 
 
-// 🔐 UPDATE PRODUCT (ONLY OWNER)
+//  UPDATE PRODUCT (ONLY OWNER)
 export const updateProductRepo = async (id, userId, data) => {
   const product = await prisma.product.findUnique({
     where: { id },
@@ -105,7 +54,7 @@ export const updateProductRepo = async (id, userId, data) => {
 };
 
 
-// 🔐 DELETE PRODUCT (ONLY OWNER)
+//  DELETE PRODUCT (ONLY OWNER)
 export const deleteProductRepo = async (id, userId) => {
   const product = await prisma.product.findUnique({
     where: { id },
